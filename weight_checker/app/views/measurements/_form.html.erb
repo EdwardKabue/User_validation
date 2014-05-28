@@ -1,0 +1,99 @@
+<%= form_for([current_user, @measurement]) do |f| %>
+  <% if @measurement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@measurement.errors.count, "error") %> prohibited this measurement from being saved:</h2>
+
+      <ul>
+      <% @measurement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= f.label :weight %>
+    <%= f.text_field :weight, required: "required" %>
+    Units:
+      <select id="weightUnits">
+        <option>Kilograms</option>
+        <option>Pounds</option>
+      </select>
+  </div>
+   <div>
+    <%= f.label :height %>
+    <%= f.text_field :height, required: "required" %>
+    Units:
+      <select id="heightUnits">
+        <option>Inches</option>
+        <option>Meters</option>
+        <option>Feet</option>
+      </select>
+  </div>
+   <div class="well">
+    <div id="datetimepicker4" class="input-append">
+      <%= f.label :measurement_date %>
+      <%= f.text_field :measurement_date, "data-format" => "yyyy-MM-dd" %>
+       <span class="add-on">
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+      </span>
+    </div>
+  </div>
+   <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+<% end %>
+<script type="text/javascript">
+ 
+ $(document).ready(function(){
+  $(function() {
+    $('#datetimepicker4').datetimepicker({
+      pickTime :false
+    });
+  });
+
+  $("input[name='commit']").click(function(){
+    var standardWeight;
+    var standardHeight;
+    var bmi;
+    var regExp=/[^0-9.]/;
+
+    if($("#measurement_weight").val()==0||$("#measurement_height").val()==0){
+    alert("Sorry. But it's not possible that your weight and/or height equal zero. Please try again.");
+    }
+    else if(regExp.test($("#measurement_weight").val())||regExp.test($("#measurement_height").val())){
+      alert("Please enter a valid number.");
+    }
+
+    else{
+      if($('#weightUnits option:selected').val()=="Kilograms"){
+        standardWeight=parseFloat($('#measurement_weight').val());
+      }
+      else if($('#weightUnits option:selected').val()=="Pounds"){
+        standardHeight=parseFloat($('#measurement_weight').val())/2.20462;
+      }
+
+      switch($('#weightUnits option:selected').val()){
+        case "Inches":
+          standardHeight=parseFloat($('#measurement_height').val())*0.025400;
+          break;
+        case "Meters":
+          standardHeight=parseFloat($('#measurement_height').val());
+          break;
+        case "Feet":
+          standardHeight=parseFloat($('#measurement_height').val())*0.30480;
+          break;
+        default:
+          alert("default");
+      }
+      bmi=standardWeight/(Math.pow(standardHeight,2));
+      $("#measurement_weight").val(standardWeight.toString());
+      $("#measurement_height").val(standardHeight.toString());
+    }
+
+
+  
+   });
+     
+ });
+
+</script>

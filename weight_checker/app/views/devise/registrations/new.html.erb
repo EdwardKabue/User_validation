@@ -1,0 +1,43 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, autofocus: true %></div>
+
+  <div><%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+
+  <div>
+ 	<%= f.label :name %><br/>
+ 	<%= f.text_field :name %>
+ </div>
+ <div>
+    <%= f.label :gender %>
+    <%= f.text_field :gender %>
+ </div>
+ <div class="well">
+    <div id="datetimepicker4" class="input-append">
+      <%= f.label :date_of_birth %>
+      <%= f.text_field :date_of_birth, "data-format" => "yyyy-MM-dd" %>
+       <span class="add-on">
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+      </span>
+    </div>
+  </div>
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+<script type="text/javascript">
+	$(document).ready(function(){
+ 	$(function() {
+    $('#datetimepicker4').datetimepicker({
+      pickTime :false
+    });
+  });
+ });
+</script>>
+<%= render "devise/shared/links" %>
