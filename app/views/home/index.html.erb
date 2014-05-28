@@ -1,0 +1,8 @@
+<p>Welcome <%= current_user.name %></p>
+
+<h2>Upload your Profile pic</h2>
+<%= form_for(current_user, html:{multipart: true}) do |f| %>
+	<%= f.file_field :profile_pic %>
+	<%= f.submit %>
+<% end %>
+<%= image_tag current_user.profile_pic.url(:thumbnail) %>
