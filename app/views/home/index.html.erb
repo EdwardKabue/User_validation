@@ -1,4 +1,4 @@
-<p>Welcome <%= current_user.name %></p>
+<p>Welcome <span id="name"><%= current_user.name %></span></p>
 
 <h2>Upload your Profile pic</h2>
 <%= form_for(current_user, html:{multipart: true}) do |f| %>
@@ -6,3 +6,15 @@
 	<%= f.submit %>
 <% end %>
 <%= image_tag current_user.profile_pic.url(:thumbnail) %>
+
+<%= form_for current_user, remote: true do |f| %>
+	<%= f.label :name%>
+	<%= f.text_field :name %>
+	<%= f.submit %>
+<%end%>
+<script type="text/javascript">
+	$(".edit_user").on("ajax:success", function(e, data, status, xhr){
+		console.log("updated",data);
+		$("#name").html(data.name);
+	});
+</script>
